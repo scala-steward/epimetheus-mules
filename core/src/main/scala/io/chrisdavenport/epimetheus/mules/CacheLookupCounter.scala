@@ -29,7 +29,7 @@ object CacheLookupCounter {
       cr,
       name,
       "Cache Lookup Status Counter.",
-      Sized(Name("cache_name"), Name("status")),
+      Sized(Label("cache_name"), Label("status")),
       CacheLookupCounterStatus.cacheLookupStatShow
     ).map(new CacheLookupCounter(_))
 
@@ -42,7 +42,7 @@ object CacheLookupCounter {
         cr,
         name,
         "Cache Lookup Status Counter.",
-        Sized(Name("status")),
+        Sized(Label("status")),
         {c: CacheLookupStatus => Sized(CacheLookupStatus.statusValue(c))}
       ).map(c => 
         mc.withOnCacheMiss(_ => c.label(CacheMiss).inc)
@@ -58,7 +58,7 @@ object CacheLookupCounter {
       cr,
       name,
       "Cache Lookup Status Counter.",
-      Sized(Name("status")),
+      Sized(Label("status")),
       {c: CacheLookupStatus => Sized(CacheLookupStatus.statusValue(c))}
     ).map(new SingleLookupCounted(_, lookup))
 
@@ -71,7 +71,7 @@ object CacheLookupCounter {
       cr,
       name,
       "Cache Lookup Status Counter.",
-      Sized(Name("status")),
+      Sized(Label("status")),
       {c: CacheLookupStatus => Sized(CacheLookupStatus.statusValue(c))}
     ).map(new SingleCacheCounted(_, cache))
 
