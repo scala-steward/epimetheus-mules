@@ -15,7 +15,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
         cr <- CollectorRegistry.build[IO]
         cache <- MemoryCache.createMemoryCache[IO, String, String](None)
         modifier <- CacheLookupCounter.register(cr)
-        newCache = modifier.memoryCache(cache, "foo")
+        newCache = modifier.meteredMemoryCache(cache, "foo")
         _ <- newCache.insert("yellow", "green")
         _ <- newCache.lookup("yellow")
         _ <- newCache.lookup("green")
@@ -23,7 +23,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
       } yield out
 
       val expected = 
-      """# HELP mules_cache_lookup_total Cache Lookup Status Counter
+      """# HELP mules_cache_lookup_total Cache Lookup Status Counter.
         |# TYPE mules_cache_lookup_total counter
         |mules_cache_lookup_total{cache_name="foo",status="miss",} 1.0
         |mules_cache_lookup_total{cache_name="foo",status="hit",} 1.0
@@ -38,8 +38,8 @@ object CacheLookupCounterSpec extends mutable.Specification {
         cache <- MemoryCache.createMemoryCache[IO, String, String](None)
         cache2 <- MemoryCache.createMemoryCache[IO, Int, Double](None)
         modifier <- CacheLookupCounter.register(cr)
-        newCache = modifier.memoryCache(cache, "foo")
-        newCache2 = modifier.memoryCache(cache2, "bar")
+        newCache = modifier.meteredMemoryCache(cache, "foo")
+        newCache2 = modifier.meteredMemoryCache(cache2, "bar")
         _ <- newCache.insert("yellow", "green")
         _ <- newCache.lookup("yellow")
         _ <- newCache.lookup("green")
@@ -49,7 +49,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
       } yield out
 
       val expected = 
-      """# HELP mules_cache_lookup_total Cache Lookup Status Counter
+      """# HELP mules_cache_lookup_total Cache Lookup Status Counter.
         |# TYPE mules_cache_lookup_total counter
         |mules_cache_lookup_total{cache_name="foo",status="miss",} 1.0
         |mules_cache_lookup_total{cache_name="bar",status="hit",} 1.0
