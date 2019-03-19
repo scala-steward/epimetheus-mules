@@ -23,7 +23,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
       } yield out
 
       val expected = 
-      """# HELP mules_cache_lookup_total Cache Lookup Status Counter
+      """# HELP mules_cache_lookup_total Cache Lookup Status Counter.
         |# TYPE mules_cache_lookup_total counter
         |mules_cache_lookup_total{cache_name="foo",status="miss",} 1.0
         |mules_cache_lookup_total{cache_name="foo",status="hit",} 1.0
@@ -49,7 +49,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
       } yield out
 
       val expected = 
-      """# HELP mules_cache_lookup_total Cache Lookup Status Counter
+      """# HELP mules_cache_lookup_total Cache Lookup Status Counter.
         |# TYPE mules_cache_lookup_total counter
         |mules_cache_lookup_total{cache_name="foo",status="miss",} 1.0
         |mules_cache_lookup_total{cache_name="bar",status="hit",} 1.0
