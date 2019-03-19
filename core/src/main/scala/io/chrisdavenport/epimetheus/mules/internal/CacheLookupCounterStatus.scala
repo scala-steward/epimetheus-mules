@@ -6,10 +6,6 @@ private[mules] final case class CacheLookupCounterStatus(cacheName: String, look
 
 private[mules] object CacheLookupCounterStatus {
   def cacheLookupStatShow(c: CacheLookupCounterStatus) = {
-    val lookupStatusValue = c.lookupStatus match {
-      case CacheHit => "hit"
-      case CacheMiss => "miss"
-    }
-    Sized(c.cacheName, lookupStatusValue)
+    Sized(c.cacheName, CacheLookupStatus.statusValue(c.lookupStatus))
   }
 }

@@ -10,9 +10,9 @@ import shapeless.Sized
 
 final class CacheLookupCounter[F[_]: Sync] private (private val c: UnlabelledCounter[F, CacheLookupCounterStatus]){
   import CacheLookupCounter._
-  def lookup[K, V](l: Lookup[F, K, V], name: String): Lookup[F, K, V] = new LookupCounted[F, K, V](c, l, name)
-  def cache[K, V](ca: Cache[F, K, V], name: String): Cache[F, K, V] = new CacheCounted[F, K, V](c, ca, name)
-  def memoryCache[K, V](ca: MemoryCache[F, K, V], name: String): MemoryCache[F, K, V] = 
+  def meteredLookup[K, V](l: Lookup[F, K, V], name: String): Lookup[F, K, V] = new LookupCounted[F, K, V](c, l, name)
+  def meteredCache[K, V](ca: Cache[F, K, V], name: String): Cache[F, K, V] = new CacheCounted[F, K, V](c, ca, name)
+  def meteredMemoryCache[K, V](ca: MemoryCache[F, K, V], name: String): MemoryCache[F, K, V] = 
     ca.withOnCacheMiss(_ => c.label(CacheLookupCounterStatus(name, CacheMiss)).inc)
       .withOnCacheHit((_, _) => c.label(CacheLookupCounterStatus(name, CacheHit)).inc)
 
@@ -28,12 +28,25 @@ object CacheLookupCounter {
     Counter.labelled(
       cr,
       name,
-      "Cache Lookup Status Counter",
+      "Cache Lookup Status Counter.",
       Sized(Name("cache_name"), Name("status")),
       CacheLookupCounterStatus.cacheLookupStatShow
     ).map(new CacheLookupCounter(_))
-  
 
+  def meteredMemoryCache[F[_]: Sync, K, V](
+    cr: CollectorRegistry[F],
+    name: Name,
+    mc: MemoryCache[F, K, V]): F[MemoryCache[F, K, V]] = 
+      Counter.labelled(
+        cr,
+        name,
+        "Cache Lookup Status Counter.",
+        Sized(Name("status")),
+        {c: CacheLookupStatus => Sized(CacheLookupStatus.statusValue(c))}
+      ).map(c => 
+        mc.withOnCacheMiss(_ => c.label(CacheMiss).inc)
+          .withOnCacheHit((_, _) => c.label(CacheHit).inc)
+      )
 
   private class LookupCounted[F[_]: Monad, K, V](
     private val c: UnlabelledCounter[F, CacheLookupCounterStatus],
