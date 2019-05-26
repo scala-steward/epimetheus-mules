@@ -21,7 +21,7 @@ lazy val contributors = Seq(
 )
 
 val catsV = "1.6.0"
-val catsEffectV = "1.3.0"
+val catsEffectV = "1.3.1"
 
 val epimetheusV = "0.2.2"
 val mulesV = "0.2.0"
