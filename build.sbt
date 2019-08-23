@@ -30,7 +30,7 @@ val mulesV = "0.2.1"
 
 val specs2V = "4.7.0"
 
-val kindProjectorV = "0.9.10"
+val kindProjectorV = "0.10.0"
 val betterMonadicForV = "0.3.1"
 
 // General Settings
@@ -47,7 +47,7 @@ lazy val commonSettings = Seq(
       "-doc-source-url", "https://github.com/ChristopherDavenport/epimetheus-mules/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
 
-  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
+  addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy" %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
     "org.typelevel"               %% "cats-core"                  % catsV,
