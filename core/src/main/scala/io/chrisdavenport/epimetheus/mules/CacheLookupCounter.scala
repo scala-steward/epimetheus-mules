@@ -110,7 +110,7 @@ object CacheLookupCounter {
       def lookup(k: K): F[Option[V]] = 
         innerL.lookup(k).flatMap{
           case s@Some(_) => c.label(CacheLookupCounterStatus(cacheName, CacheHit)).inc.as(s)
-          case n@None => c.label(CacheLookupCounterStatus(cacheName, CacheMiss)).inc.as(n)
+          case None => c.label(CacheLookupCounterStatus(cacheName, CacheMiss)).inc.as(None)
         }
   }
 
@@ -122,7 +122,7 @@ object CacheLookupCounter {
       def lookup(k: K): F[Option[V]] = 
         innerL.lookup(k).flatMap{
           case s@Some(_) => c.label(CacheLookupCounterStatus(cacheName, CacheHit)).inc.as(s)
-          case n@None => c.label(CacheLookupCounterStatus(cacheName, CacheMiss)).inc.as(n)
+          case None => c.label(CacheLookupCounterStatus(cacheName, CacheMiss)).inc.as(None)
         }
       def delete(k: K): F[Unit] = innerL.delete(k)
       def insert(k: K, v: V): F[Unit] = innerL.insert(k, v)
