@@ -5,7 +5,7 @@ import io.chrisdavenport.mules._
 import org.specs2._
 import cats.effect._
 
-object CacheLookupCounterSpec extends mutable.Specification {
+class CacheLookupCounterSpec extends mutable.Specification {
 
   implicit val T = IO.timer(scala.concurrent.ExecutionContext.global)
 
@@ -13,7 +13,7 @@ object CacheLookupCounterSpec extends mutable.Specification {
     "modify a cache" in {
       val test = for {
         cr <- CollectorRegistry.build[IO]
-        cache <- MemoryCache.createMemoryCache[IO, String, String](None)
+        cache <- MemoryCache.ofSingleImmutableMap[IO, String, String](None)
         modifier <- CacheLookupCounter.register(cr)
         newCache = modifier.meteredMemoryCache(cache, "foo")
         _ <- newCache.insert("yellow", "green")
@@ -35,8 +35,8 @@ object CacheLookupCounterSpec extends mutable.Specification {
     "modify multiple caches" in {
       val test = for {
         cr <- CollectorRegistry.build[IO]
-        cache <- MemoryCache.createMemoryCache[IO, String, String](None)
-        cache2 <- MemoryCache.createMemoryCache[IO, Int, Double](None)
+        cache <- MemoryCache.ofSingleImmutableMap[IO, String, String](None)
+        cache2 <- MemoryCache.ofSingleImmutableMap[IO, Int, Double](None)
         modifier <- CacheLookupCounter.register(cr)
         newCache = modifier.meteredMemoryCache(cache, "foo")
         newCache2 = modifier.meteredMemoryCache(cache2, "bar")

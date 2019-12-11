@@ -98,6 +98,8 @@ object CacheLookupCounter {
 
     override def delete(k: K): F[Unit] = innerL.delete(k)
     override def insert(k: K, v: V): F[Unit] = innerL.insert(k, v)
+    override def insertWithTimeout(optionTimeout: Option[TimeSpec])(k: K, v: V): F[Unit] =
+        innerL.insertWithTimeout(optionTimeout)(k, v)
   }
 
   private class LookupCounted[F[_]: Monad, K, V](
@@ -124,6 +126,8 @@ object CacheLookupCounter {
         }
       def delete(k: K): F[Unit] = innerL.delete(k)
       def insert(k: K, v: V): F[Unit] = innerL.insert(k, v)
+      def insertWithTimeout(optionTimeout: Option[TimeSpec])(k: K, v: V): F[Unit] =
+        innerL.insertWithTimeout(optionTimeout)(k, v)
   }
 
 
