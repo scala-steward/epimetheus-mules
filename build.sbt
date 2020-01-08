@@ -65,7 +65,7 @@ val catsEffectV = "2.0.0"
 val epimetheusV = "0.3.0"
 val mulesV = "0.3.0"
 
-val specs2V = "4.8.2"
+val specs2V = "4.8.3"
 
 val kindProjectorV = "0.11.0"
 val betterMonadicForV = "0.3.1"
