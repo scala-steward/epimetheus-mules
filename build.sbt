@@ -61,7 +61,7 @@ lazy val site = project.in(file("site"))
   }
 
 val catsV = "2.1.1"
-val catsEffectV = "2.1.2"
+val catsEffectV = "2.1.3"
 val epimetheusV = "0.4.0"
 val mulesV = "0.4.0"
 
