@@ -67,7 +67,7 @@ val mulesV = "0.4.0"
 
 val specs2V = "4.8.3"
 
-val kindProjectorV = "0.11.0"
+val kindProjectorV = "0.11.1"
 val betterMonadicForV = "0.3.1"
 
 // General Settings
